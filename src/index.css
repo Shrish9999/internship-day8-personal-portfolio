@@ -1,99 +1,119 @@
-/* 1. Sabse pehle Fonts Import */
+/* 1. Fonts Import */
 @import url('https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Space+Grotesk:wght@300;400;500;600&display=swap');
 
-/* 2. Fir Tailwind ke Directives (Ye zaroori hain, hataana mat) */
+/* 2. Tailwind Directives */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* 3. Ab Custom Styles */
+/* 3. Global Styles */
 @layer base {
-  :root {
-    --bg-color: #050505;
+  /* Scroll Behavior */
+  html {
+    scroll-behavior: smooth;
   }
-  
+
+  /* Body Setup */
   body {
-    @apply bg-primary text-secondary font-sans antialiased overflow-x-hidden;
+    @apply bg-primary text-secondary font-sans antialiased overflow-x-hidden selection:bg-accent selection:text-white;
   }
   
-  /* Noise Texture Overlay */
+  /* Noise Texture (Grain Effect - Premium Feel) */
   body::before {
     content: "";
-    @apply fixed top-0 left-0 w-full h-full opacity-5 pointer-events-none z-50;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.05; /* Grain intensity 5% */
+    pointer-events: none;
+    z-index: 9999;
     background-image: url("https://grainy-gradients.vercel.app/noise.svg");
   }
 
-  /* Custom Selection Color */
-  ::selection {
-    @apply bg-accent text-white;
-  }
-
-  /* Headings Font */
+  /* Default Heading Styles */
   h1, h2, h3, h4, h5, h6 {
     @apply font-display uppercase tracking-widest;
   }
 }
 
-/* 4. Utilities */
-::-webkit-scrollbar {
-  width: 0px;
+/* 4. Utility Classes */
+@layer utilities {
+  
+  /* Scrollbar Hide (Optional: Agar tumhe scrollbar nahi dikhana) */
+  ::-webkit-scrollbar {
+    width: 0px;
+  }
+
+  /* Marquee Stroke Text (Outline Only Text) */
+  .text-stroke {
+    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
+    color: transparent;
+  }
+
+  /* --- GLITCH EFFECT (Refined for Tailwind) --- */
+  .glitch-wrapper {
+    position: relative;
+    display: inline-block;
+  }
+
+  .glitch {
+    position: relative;
+    /* Color removed here so 'text-accent' in JSX works */
+    mix-blend-mode: lighten;
+  }
+
+  .glitch::before,
+  .glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: #050505; /* Matches your bg-primary exactly */
+  }
+
+  .glitch::before {
+    left: 2px;
+    text-shadow: -2px 0 #ff00c1; /* Pink Shadow */
+    clip: rect(44px, 450px, 56px, 0);
+    animation: glitch-anim 5s infinite linear alternate-reverse;
+  }
+
+  .glitch::after {
+    left: -2px;
+    text-shadow: -2px 0 #00fff9; /* Cyan/Blue Shadow */
+    clip: rect(44px, 450px, 56px, 0);
+    animation: glitch-anim2 5s infinite linear alternate-reverse;
+  }
 }
 
-/* Marquee Stroke Text Effect */
-.text-stroke {
-  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
-  color: transparent;
-}
-/* Glitch Effect */
-.glitch-wrapper {
-  position: relative;
-  display: inline-block;
-}
-
-.glitch {
-  position: relative;
-  color: white;
-  mix-blend-mode: lighten;
-}
-
-.glitch::before,
-.glitch::after {
-  content: attr(data-text);
-  position: absolute;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background: #050505; /* Match Background Color */
-}
-
-.glitch::before {
-  left: 2px;
-  text-shadow: -1px 0 #ff00c1;
-  clip: rect(44px, 450px, 56px, 0);
-  animation: glitch-anim 5s infinite linear alternate-reverse;
-}
-
-.glitch::after {
-  left: -2px;
-  text-shadow: -1px 0 #00fff9;
-  clip: rect(44px, 450px, 56px, 0);
-  animation: glitch-anim2 5s infinite linear alternate-reverse;
-}
-
+/* 5. Keyframes (Animations) */
 @keyframes glitch-anim {
   0% { clip: rect(31px, 9999px, 94px, 0); }
+  10% { clip: rect(10px, 9999px, 40px, 0); }
   20% { clip: rect(6px, 9999px, 3px, 0); }
+  30% { clip: rect(20px, 9999px, 80px, 0); }
   40% { clip: rect(72px, 9999px, 25px, 0); }
+  50% { clip: rect(40px, 9999px, 10px, 0); }
   60% { clip: rect(5px, 9999px, 86px, 0); }
+  70% { clip: rect(60px, 9999px, 30px, 0); }
   80% { clip: rect(18px, 9999px, 52px, 0); }
+  90% { clip: rect(30px, 9999px, 70px, 0); }
   100% { clip: rect(84px, 9999px, 29px, 0); }
 }
 
 @keyframes glitch-anim2 {
   0% { clip: rect(66px, 9999px, 14px, 0); }
+  10% { clip: rect(20px, 9999px, 50px, 0); }
   20% { clip: rect(18px, 9999px, 91px, 0); }
+  30% { clip: rect(50px, 9999px, 10px, 0); }
   40% { clip: rect(9px, 9999px, 21px, 0); }
+  50% { clip: rect(70px, 9999px, 40px, 0); }
   60% { clip: rect(80px, 9999px, 7px, 0); }
+  70% { clip: rect(10px, 9999px, 60px, 0); }
   80% { clip: rect(27px, 9999px, 49px, 0); }
+  90% { clip: rect(55px, 9999px, 20px, 0); }
   100% { clip: rect(40px, 9999px, 83px, 0); }
 }

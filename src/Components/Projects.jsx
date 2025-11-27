@@ -1,43 +1,15 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import gsap from 'gsap';
-import './Projects.scss'; 
-
-const projectsData = [
-  {
-    name: "Cynthia Ugwu",
-    description: "Design & Development",
-    image: "https://images.unsplash.com/photo-1600607686527-6fb886090705?q=80&w=2400&auto=format&fit=crop"
-  },
-  {
-    name: "Obys Agency",
-    description: "Creative Studio",
-    image: "https://images.unsplash.com/photo-1558655146-d09347e92766?q=80&w=2400&auto=format&fit=crop"
-  },
-  {
-    name: "Play New",
-    description: "Interactive Experience",
-    image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2400&auto=format&fit=crop"
-  },
-  {
-    name: "Sheryians",
-    description: "Teaching Code",
-    image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=2400&auto=format&fit=crop"
-  }
-];
+import { Link } from 'react-router-dom';
+import { projectsData } from '../constants/data'; // Data import kiya
 
 const Projects = () => {
   const [activeImage, setActiveImage] = useState(null);
   const cursorRef = useRef(null);
-  const cursorLabelRef = useRef(null);
 
   useEffect(() => {
     const moveCursor = (e) => {
-      gsap.to(cursorRef.current, {
-        x: e.clientX,
-        y: e.clientY,
-        duration: 0.4,
-        ease: "power2.out"
-      });
+      gsap.to(cursorRef.current, { x: e.clientX, y: e.clientY, duration: 0.4, ease: "power2.out" });
     };
     window.addEventListener('mousemove', moveCursor);
     return () => window.removeEventListener('mousemove', moveCursor);
@@ -45,50 +17,42 @@ const Projects = () => {
 
   const handleMouseEnter = (img) => {
     setActiveImage(img);
-    gsap.to(cursorRef.current, {
-      scale: 1,
-      opacity: 1,
-      duration: 0.3,
-      ease: "power2.out"
-    });
+    gsap.to(cursorRef.current, { scale: 1, opacity: 1, duration: 0.3 });
   };
 
   const handleMouseLeave = () => {
-    gsap.to(cursorRef.current, {
-      scale: 0,
-      opacity: 0,
-      duration: 0.3,
-      ease: "power2.in"
-    });
-    setTimeout(() => setActiveImage(null), 300);
+    gsap.to(cursorRef.current, { scale: 0, opacity: 0, duration: 0.3 });
+    setActiveImage(null);
   };
 
   return (
-    <div className="projects-section">
-      {/* Floating Cursor Modal */}
-      <div ref={cursorRef} className="cursor-modal">
-        {activeImage && <img src={activeImage} alt="project" />}
-        <div className="view-label">View</div>
+    // FIX: id="work" added here for navigation
+    <div id="work" className="w-full py-20 bg-zinc-900 relative">
+      <div ref={cursorRef} className="fixed top-0 left-0 w-80 h-64 rounded-2xl overflow-hidden pointer-events-none z-[999] opacity-0 -translate-x-1/2 -translate-y-1/2">
+        {activeImage && <img src={activeImage} alt="preview" className="w-full h-full object-cover" />}
       </div>
 
-      <div className="container">
-        <h1 className="section-title">Featured Projects</h1>
-        <div className="project-list">
-          {projectsData.map((project, index) => (
+      <div className="w-full px-20 border-b-[1px] border-zinc-700 pb-10">
+        <h1 className="text-[4vw] font-['Neue_Montreal'] text-white">Featured Projects</h1>
+      </div>
+
+      <div className="px-20 mt-10 flex flex-col gap-10">
+        {projectsData.map((project, index) => (
+          <Link to={`/project/${project.id}`} key={index} className="no-underline"> {/* Link to Detail Page */}
             <div 
-              key={index}
-              className="project-item"
+              className="group flex flex-col md:flex-row justify-between items-center py-10 border-b border-zinc-700 cursor-pointer"
               onMouseEnter={() => handleMouseEnter(project.image)}
               onMouseLeave={handleMouseLeave}
             >
-              <div className="overlay"></div>
-              <div className="item-content">
-                <h2 className="project-name">{project.name}</h2>
-                <p className="project-desc">{project.description}</p>
-              </div>
+              <h2 className="text-5xl font-['Founders_Grotesk_X-Condensed'] uppercase font-bold text-white group-hover:text-[#CDEA68] transition-colors">
+                {project.name}
+              </h2>
+              <p className="text-lg text-gray-400 font-['Neue_Montreal'] group-hover:text-white">
+                {project.category}
+              </p>
             </div>
-          ))}
-        </div>
+          </Link>
+        ))}
       </div>
     </div>
   );

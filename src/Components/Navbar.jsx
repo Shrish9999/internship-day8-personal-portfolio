@@ -2,13 +2,12 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { RiMenu3Line, RiCloseLine } from 'react-icons/ri';
 import { Link } from 'react-router-dom';
-import MagneticButton from './MagneticButton'; // Import kiya
+import MagneticButton from './MagneticButton'; 
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const toggleMenu = () => setIsOpen(!isOpen);
 
-  // Animation Variants (Same as before)
   const menuVars = {
     initial: { scaleY: 0 },
     animate: { scaleY: 1, transition: { duration: 0.5, ease: [0.12, 0, 0.39, 0] } },
@@ -19,48 +18,71 @@ const Navbar = () => {
     open: { y: 0, transition: { duration: 0.7, ease: [0, 0.55, 0.45, 1] } }
   };
 
+  const handleScroll = (id) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+    if(isOpen) setIsOpen(false); 
+  };
+
   return (
     <motion.nav 
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      className="fixed top-0 left-0 w-full px-6 md:px-12 py-5 flex justify-between items-center z-50 bg-primary/10 backdrop-blur-md border-b border-white/5"
+      transition={{ duration: 0.8, ease: "easeOut" }}
+      className="fixed top-0 left-0 w-full px-6 md:px-12 py-5 flex justify-between items-center z-50 bg-zinc-900/40 backdrop-blur-lg border-b border-white/10"
     >
-      {/* 1. BRAND NAME REPLACED (NEXUS) */}
-      <Link to="/" className="text-2xl font-display font-bold tracking-tighter cursor-pointer text-white z-50 mix-blend-difference">
-        NEX<span className="text-accent">US</span>
+      {/* LOGO CHANGED HERE */}
+      <Link 
+        to="/" 
+        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        className="text-3xl font-['Founders_Grotesk_X-Condensed'] font-bold tracking-wide cursor-pointer text-white z-50 mix-blend-difference hover:text-ochi-green transition-colors duration-300"
+      >
+        SHRISH<span className="text-ochi-green">.</span>
       </Link>
 
-      {/* Desktop Menu */}
-      <div className="hidden md:flex items-center gap-8">
+      <div className="hidden md:flex items-center gap-10">
         {['Work', 'About', 'Services'].map((item, index) => (
-          <a key={index} href={`#${item.toLowerCase()}`} className="text-sm font-sans text-gray-300 hover:text-white uppercase tracking-widest transition-colors">
+          <button 
+            key={index} 
+            onClick={() => handleScroll(item.toLowerCase())} 
+            className="text-sm font-['Neue_Montreal'] font-light text-white hover:text-ochi-green capitalize transition-colors duration-300 bg-transparent border-none cursor-pointer"
+          >
             {item}
-          </a>
+          </button>
         ))}
         
-        {/* 2. MAGNETIC BUTTON ADDED */}
-        <MagneticButton className="px-5 py-2 rounded-full border border-white/20 text-white text-sm uppercase tracking-widest hover:text-black transition-colors">
-          Let's Talk
-        </MagneticButton>
+        <div onClick={() => handleScroll('contact')}>
+            <MagneticButton className="px-5 py-2 rounded-full border-[1px] border-white/30 text-white font-['Neue_Montreal'] text-sm hover:bg-white hover:text-black transition-all duration-300 cursor-pointer">
+            Let's Talk
+            </MagneticButton>
+        </div>
       </div>
 
-      {/* Mobile Menu Icon */}
-      <div className="md:hidden z-50 text-2xl text-white cursor-pointer" onClick={toggleMenu}>
+      <div 
+        className="md:hidden z-50 text-2xl text-white cursor-pointer hover:text-ochi-green transition-colors duration-300" 
+        onClick={toggleMenu}
+      >
         {isOpen ? <RiCloseLine /> : <RiMenu3Line />}
       </div>
 
-      {/* Full Screen Menu (Same Logic) */}
       <AnimatePresence>
         {isOpen && (
-          <motion.div variants={menuVars} initial="initial" animate="animate" exit="exit" className="fixed left-0 top-0 w-full h-screen bg-black origin-top flex flex-col justify-center items-center gap-10 z-40">
-             {/* ... Mobile Menu Content (Same as previous code) ... */}
-              <div className="flex flex-col gap-6 text-center font-display text-4xl uppercase font-bold text-white">
+          <motion.div 
+            variants={menuVars} initial="initial" animate="animate" exit="exit" 
+            className="fixed left-0 top-0 w-full h-screen bg-zinc-900 origin-top flex flex-col justify-center items-center gap-10 z-40"
+          >
+              <div className="flex flex-col gap-6 text-center font-['Founders_Grotesk_X-Condensed'] text-6xl uppercase font-bold text-white">
               {['Home', 'Work', 'About', 'Contact'].map((item, index) => (
                 <div key={index} className="overflow-hidden">
                   <motion.div variants={mobileLinkVars}>
-                    <a href={`#${item.toLowerCase()}`} onClick={toggleMenu} className="hover:text-accent transition-colors">
+                    <button 
+                      onClick={() => handleScroll(item.toLowerCase() === 'home' ? '' : item.toLowerCase())}
+                      className="hover:text-ochi-green hover:italic transition-all duration-300 block bg-transparent border-none cursor-pointer"
+                    >
                       {item}
-                    </a>
+                    </button>
                   </motion.div>
                 </div>
               ))}

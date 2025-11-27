@@ -1,44 +1,45 @@
 import React from 'react';
-import Hero from '../Components/Hero';
-import Marquee from '../Components/Marquee';
+import Navbar from '../Components/Navbar';
+import Landing from '../Components/Landing';
+import Marquee from '../Components/Marquee'; 
 import About from '../Components/About';
-import Services from '../Components/Services';
-import Work from '../Components/Work';
+import Experience from '../Components/Experience';
+import Eyes from '../Components/Eyes';
+import Projects from '../Components/Projects';
+import Services from '../Components/Services'; 
 import Contact from '../Components/Contact';
-import HorizontalGallery from '../Components/HorizontalGallery'; // New Import
-import Testimonials from '../Components/Testimonials'; // New Import
+import { motion } from 'framer-motion';
+// 1. New Import for SEO tags
+import { Helmet } from 'react-helmet-async';
 
 const Home = () => {
   return (
-    <div className="w-full">
-      
-      {/* WRAPPER FOR SCROLLABLE CONTENT (Footer Reveal Logic) */}
-      <div className="relative z-10 bg-primary shadow-2xl rounded-b-[50px] mb-[100vh]">
-        
-        <Hero />
-        
+    <motion.div 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5 }}
+      className="w-full bg-zinc-900"
+    >
+        {/* 2. SEO Meta Tags - Google Search ke liye */}
+        <Helmet>
+            <title>Shrish Tiwari | Full Stack Developer</title>
+            <meta name="description" content="Portfolio of Shrish Tiwari - MERN Stack & Django Developer based in India. Specialized in building scalable web applications." />
+            <meta name="keywords" content="Shrish Tiwari, Full Stack Developer, MERN Stack, Django, React Developer, Portfolio, Kuchoriya TechSoft" />
+        </Helmet>
+
+        <Landing />
+        <Marquee />
         <About />
         
-        {/* Cinematic Horizontal Scroll Section */}
-        <HorizontalGallery /> 
-        
-        <Services />
-        
-        <Work />
-        
-        {/* Social Proof / Reviews */}
-        <Testimonials /> 
-        
-        <Marquee />
-        
-        {/* Extra Space at bottom for rounded effect */}
-        <div className="h-20 bg-primary rounded-b-[50px]"></div>
-      </div>
+        {/* Internship & Education */}
+        <Experience /> 
 
-      {/* STICKY FOOTER (Fixed Behind Content) */}
-      <Contact />
-      
-    </div>
+        <Eyes />
+        <Projects />
+        <Services />
+        <Contact />
+    </motion.div>
   );
 };
 

@@ -1,56 +1,43 @@
 import React from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { useRef } from 'react';
+import { personalDetails, skillsData } from '../constants/data'; 
+
+// 1. Apni Photo Import karo (Make sure file src/assets/ folder mein ho)
+// Agar error aaye to check karna file ka naam aur extension (.jpg/.png) sahi hai ya nahi
+import profileImg from '../assets/profile.jpg'; 
 
 const About = () => {
-  const element = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: element,
-    offset: ['start 0.9', 'start 0.25']
-  });
-
-  // Text Highlight Animation
-  const opacity = useTransform(scrollYProgress, [0, 1], [0.2, 1]);
-
   return (
-    <section id="about" className="w-full py-32 px-6 md:px-12 bg-primary relative overflow-hidden">
+    // 2. Yahan 'id="about"' add kiya taaki Navbar link yahan scroll kare
+    <div id="about" className="w-full p-20 bg-[#CDEA68] rounded-tl-3xl rounded-tr-3xl text-black">
       
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-20">
+      <h1 className="font-['Neue_Montreal'] text-[4vw] leading-[4.5vw] tracking-tight mb-10">
+        {personalDetails.bio}
+      </h1>
+
+      <div className="w-full border-t-[1px] pt-10 border-[#a1b562] flex flex-col md:flex-row gap-5">
         
-        {/* Left: Heading */}
-        <div className="w-full md:w-1/3">
-           <h3 className="text-accent font-sans uppercase tracking-widest mb-4 text-sm">Who I Am</h3>
-           <div className="w-full h-[1px] bg-white/10 mb-8"></div>
+        <div className="w-full md:w-1/2">
+            <h1 className="text-4xl mb-5">My Skills:</h1>
+            <div className="flex flex-wrap gap-2">
+                {skillsData.map((skill, index) => (
+                    <span key={index} className="px-4 py-2 border border-black/20 rounded-full text-sm font-['Neue_Montreal'] uppercase hover:bg-black hover:text-[#CDEA68] transition-colors cursor-default">
+                        {skill}
+                    </span>
+                ))}
+            </div>
         </div>
 
-        {/* Right: Reveal Text */}
-        <div className="w-full md:w-2/3" ref={element}>
-          <motion.p 
-            style={{ opacity }}
-            className="text-3xl md:text-5xl font-display font-medium leading-tight text-white"
-          >
-            I am a creative developer passionate about building <span className="text-accent">digital products</span> that empower people. 
-            I believe that design is not just about how it looks, but how it <span className="text-accent">works</span>.
-            From concept to execution, I focus on micro-interactions and performance.
-          </motion.p>
-          
-          <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8">
-              {[
-                  { num: "3+", label: "Years Exp" },
-                  { num: "50+", label: "Projects" },
-                  { num: "20+", label: "Happy Clients" },
-                  { num: "100%", label: "Commitment" }
-              ].map((stat, index) => (
-                  <div key={index}>
-                      <h4 className="text-4xl font-display font-bold text-white mb-2">{stat.num}</h4>
-                      <p className="text-gray-500 text-sm uppercase tracking-wider">{stat.label}</p>
-                  </div>
-              ))}
-          </div>
+        <div className="w-full md:w-1/2 h-[60vh] rounded-3xl bg-[#b0c859] overflow-hidden relative group">
+            {/* 3. Yahan src variable use kiya */}
+            <img 
+                className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" 
+                src={profileImg} 
+                alt="Shrish Tiwari" 
+            />
         </div>
+
       </div>
-
-    </section>
+    </div>
   );
 };
 
