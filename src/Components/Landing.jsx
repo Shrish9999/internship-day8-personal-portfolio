@@ -6,7 +6,7 @@ const Landing = () => {
   
   // Scroll Function
   const scrollToWork = () => {
-    const workSection = document.getElementById('work'); // Humne Projects.jsx mein id="work" diya tha
+    const workSection = document.getElementById('work'); 
     if (workSection) {
       workSection.scrollIntoView({ behavior: 'smooth' });
     }
@@ -15,31 +15,33 @@ const Landing = () => {
   return (
     <div data-scroll data-scroll-section data-scroll-speed="-.3" className="w-full h-screen bg-zinc-900 pt-1">
       
-      {/* Main Text Structure */}
-      <div className="textstructure mt-40 px-10 md:px-20">
+      {/* Main Text Structure - Size Reduced here */}
+      <div className="textstructure mt-32 px-10 md:px-20">
         
         <div className="masker">
-            <h1 className="uppercase text-[7.5vw] leading-[.75] font-['Founders_Grotesk_X-Condensed'] font-bold text-white">
+            {/* Text size 7.5vw se 6vw kar diya */}
+            <h1 className="uppercase text-[6vw] leading-[.75] font-['Founders_Grotesk_X-Condensed'] font-bold text-white">
                 BUILDING
             </h1>
         </div>
 
         <div className="masker">
             <div className="w-fit flex items-end overflow-hidden">
+                {/* Green box ka size bhi text ke hisaab se adjust kiya */}
                 <motion.div 
                     initial={{ width: 0 }} 
-                    animate={{ width: "9vw" }} 
+                    animate={{ width: "7vw" }} 
                     transition={{ ease: [0.76, 0, 0.24, 1], duration: 1 }} 
-                    className="mr-[1vw] w-[8vw] rounded-md h-[5.7vw] -top-[0.8vw] relative bg-[#CDEA68]" 
+                    className="mr-[1vw] w-[7vw] rounded-md h-[4.5vw] -top-[0.2vw] relative bg-[#CDEA68]" 
                 ></motion.div>
-                <h1 className="uppercase text-[7.5vw] leading-[.75] font-['Founders_Grotesk_X-Condensed'] font-bold text-white">
+                <h1 className="uppercase text-[6vw] leading-[.75] font-['Founders_Grotesk_X-Condensed'] font-bold text-white">
                     DIGITAL
                 </h1>
             </div>
         </div>
 
         <div className="masker">
-            <h1 className="uppercase text-[7.5vw] leading-[.75] font-['Founders_Grotesk_X-Condensed'] font-bold text-white">
+            <h1 className="uppercase text-[6vw] leading-[.75] font-['Founders_Grotesk_X-Condensed'] font-bold text-white">
                 EXPERIENCES
             </h1>
         </div>
@@ -80,7 +82,6 @@ const Landing = () => {
             onClick={scrollToWork}
             className="group w-10 h-10 flex items-center justify-center border-[1px] border-zinc-500 rounded-full hover:bg-white hover:text-black transition-all duration-300 cursor-pointer"
           >
-            {/* Arrow Rotate karega Hover par */}
             <span className="rotate-[45deg] group-hover:rotate-90 transition-transform duration-300">
               <FaArrowUpLong />
             </span>
